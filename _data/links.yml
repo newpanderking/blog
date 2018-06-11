@@ -1,5 +1,5 @@
-- url: "http://xixia.info"
-  title: "Xixia"
+- url: "http://www.cnblogs.com/newpanderking/"
+  title: "博客园"
 
-- url: "https://github.com/zxixia/jekyll-xixia"
-  title: "Jekyll-Xixia"  
+- url: "https://github.com/newpanderking/blog"
+  title: "博客源码"
