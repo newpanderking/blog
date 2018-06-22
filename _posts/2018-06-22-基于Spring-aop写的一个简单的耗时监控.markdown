@@ -2,7 +2,7 @@
 layout: post
 title:  "基于Spring aop写的一个简单的耗时监控"
 categories: spring
-tags: spring,java
+tags: spring java
 author: jason
 description: 基于spring aop思想做一个切面监控，监控应用方法耗时情况
 ---
@@ -165,7 +165,7 @@ public class Client {
         for (int i = 0; i < 100; i++) {
             executorService.execute(new Runnable() {
                 public void run() {
-              
+
                     person.eat("fish");
                 }
             });
