@@ -1,0 +1,65 @@
+---
+layout: post
+title:  "多仓库不同账户使用方法"
+date:   2018-06-22 16:51:53
+categories: GIT
+tags: git
+description: 多仓库不同账户使用方法.
+---
+## 多仓库不同账户使用方法
+
+> 假设有公网`github`和公司`gitlab`两个git远程仓库，两个仓库肯定存在两套用户名密码。配置ssh-key可以达到不同地址使用不同账户，而不用每次输入用户名密码。
+
+### .ssh key生成
+* 在本地 `~/.ssh`目录下，新建github目录和gitlab目录
+* 分别进入`github`/`gitlab`两个目录操作[ssh key生成](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
+* 此时目录结构如下:
+
+
+* 生成命令：`ssh-keygen -t rsa -C "xxx@xxx.com"` 
+	* copy公钥命令：
+		* `windows`:`clip < id_rsa.pub` 
+		* `mac`:`pbcopy < id_rsa.pub` 
+		* `linux`:`xclip -sel clip < id_rsa.pub` 
+
+### 配置config文件
+
+* 配置~/.ssh/config文件如下， host为地址
+
+```
+Host github.com  
+HostName github.com
+User xxxxxx@xx.com
+IdentityFile ~/.ssh/github/id_rsa
+
+
+Host gitlab.xxxxx.com  
+HostName gitlab.xxxx.com
+User xxxxxx@xx.com
+IdentityFile ~/.ssh/gitlab/id_rsa
+```
+
+### 不同仓库提交用户名修改
+
+* 全局用户名修改，
+
+	* 修改路径：`~/.gitconfig`文件中,添加如下配置
+
+		```
+		 [user]
+		      name = 姓名
+		      email = 邮箱
+		```
+ 	* 或者通过命令设置
+		* `git config  --global user.name;`
+		* `git config  --global user.email;`
+
+* 局部仓库用户名修改，由于在公司内部gitlab地址使用时一般都是用的真是姓名，在github上使用的都是昵称或是英文名称。因此在用的少的一个仓库背景下，可以到具体的本地仓库目录下的`.git`目录下，修改`config`文件，添加如下配置即可
+
+		```
+		[user]
+		      name = 姓名
+		      email = 邮箱
+		```
+
+
