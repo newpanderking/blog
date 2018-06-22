@@ -1,10 +1,10 @@
 ---
 layout: post
-title:  "多仓库不同账户使用方法"
+title:  "Git多仓库不同账户使用方法"
 date:   2018-06-22 16:51:53
 categories: GIT
 tags: git
-description: 多仓库不同账户使用方法.
+description: Git多仓库不同账户使用方法.
 ---
 
 > 假设有公网`github`和公司`gitlab`两个git远程仓库，两个仓库肯定存在两套用户名密码。配置ssh-key可以达到不同地址使用不同账户，而不用每次输入用户名密码。
