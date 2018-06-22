@@ -1,0 +1,13 @@
+<h1>{{ trans.tags }}</h1>
+<ul>
+  {% assign tags_list = site.tags %}
+  {% for tag in tags_list %}
+  <li><i class="icon-tags"></i>
+    <a href="{{ site.baseurl }}/tags.html#{{ tag[0] }}">
+      {{ tag[0] }} <span>({{ tag[1].size }})</span>
+    </a>
+
+  </li>
+  {% endfor %}
+  {% assign tags_list = nil %}
+</ul>

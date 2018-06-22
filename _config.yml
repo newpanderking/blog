@@ -13,7 +13,7 @@ url: https://newpanderking.github.io/blog/
 baseurl: '/blog'
 ## default date_format
 date_format: 
-  title: "%B-%-d-%Y"
+  title: "%Y年%m月%d"
   archive: "%b"
   categories: "%b-%Y"
   tag: "%b-%Y"
@@ -27,3 +27,6 @@ markdown: kramdown
 gems: ['jekyll-paginate']
 
 exclude: ['README.md', 'LICENSE', "*.bak"]
+
+## google 统计
+gaaccount: true

@@ -31,6 +31,10 @@
 {% endif %}
 
 <div class="sidebar well">
+    {% include tags.html %}
+</div>
+
+<div class="sidebar well">
     <h1>{{ trans.recent_posts }}</h1>
     <ul>
         {% for post in site.posts limit:5 %}
@@ -38,6 +42,8 @@
         {% endfor %}
     </ul>
 </div>
+
+
 
 <div class="sidebar well">
     {% include links-list.html %}
