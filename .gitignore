@@ -6,3 +6,4 @@ _site
 *.gem
 *.bak
 .idea
+.DS_Store
