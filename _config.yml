@@ -22,7 +22,7 @@ lan: "cn"
 
 paginate: 10
 
-highlighter: pygments
+highlighter: rouge
 markdown: kramdown
 plugins: ['jekyll-paginate']
 
