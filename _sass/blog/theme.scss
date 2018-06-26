@@ -144,6 +144,7 @@ body {
     background-color: $nav-bar-icon-bar;
 }
 
+
 // table 样式
 table
 {
@@ -153,13 +154,13 @@ table
 }
 table td, table th
 {
-    border: 1px solid #d3e3f4;
+    border: 1px solid #cad9ea;
     color: #666;
     height: 30px;
 }
 table thead th
 {
-    background-color: #c3c6c7;
+    background-color: #CCE8EB;
     width: 100px;
 }
 table tr:nth-child(odd)
