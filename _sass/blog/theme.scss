@@ -68,7 +68,7 @@ body {
 }
 
 .container-left {
-    margin: 0;
+    margin: 0 auto;
     padding-bottom:60px;
 }
 
@@ -144,8 +144,7 @@ body {
     background-color: $nav-bar-icon-bar;
 }
 
-
-// table 样式
+/** start : table 样式  **/
 table
 {
     border-collapse: collapse;
@@ -173,5 +172,9 @@ table tr:nth-child(even)
     background: #FAFAFA;
 }
 
-// #FAFAFA
-// #FAFAFA
+/** end : table 样式  **/
+
+// 导航栏右移
+.navbar-header {
+    margin-left: 10%;
+}
