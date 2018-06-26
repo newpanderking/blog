@@ -22,9 +22,9 @@ lan: "cn"
 
 paginate: 10
 
-highlighter: rouge
+highlighter: pygments
 markdown: kramdown
-gems: ['jekyll-paginate']
+plugins: ['jekyll-paginate']
 
 exclude: ['README.md', 'LICENSE', "*.bak"]
 
