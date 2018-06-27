@@ -16,7 +16,7 @@ layout: default
             {{ post.date | date: date_format }}
             </span>
         {% unless post.tags == empty %}
-        <i class=" icon-tag"></i>
+        <i class=" icon-tag"></i>{{post.tags}}
 
         {% assign tags_list = post.tags %}
         {% for tag in tags_list %}
