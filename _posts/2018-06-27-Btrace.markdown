@@ -136,7 +136,7 @@ Btrace脚本是普通的java程序，Btrace通过注解来解释脚本的用途 
 
 
 ---
-***更多详细信息可以参考官网说明：[UserGuide](https://kenai.com/projects/btrace/pages/UserGuide)***
+***更多详细信息可以参考官网说明：[UserGuide](https://kenai.com/projects/btrace/pages/UserGuide)*** [Git地址](https://github.com/btraceio/btrace)
 
 ---
 
