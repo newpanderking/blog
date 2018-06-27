@@ -32,4 +32,4 @@ plugins: ['jekyll-paginate']
 exclude: ['README.md', 'LICENSE', "*.bak"]
 
 ## google 统计
-gaaccount: true
+gaaccount: UA-121451168-1
