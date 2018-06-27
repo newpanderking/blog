@@ -79,7 +79,7 @@ class unloading 回收SystemDictionary消耗的总时间。
 
 **JVM的悲观策略是啥？**
 
-* 所谓的悲观策略（http://tmalltesting.com/archives/663 我们性能测试团队一个同学分析的案例），就是JVM不按照JVM指定的参数来进行CMS GC，而是根据内存情况以及之前回收的方式动态调整，自行进行GC。旧生代剩余的空间（available）大于新生代中使用的空间（max_promotion_in_bytes），或者大于之前平均晋升的old的大小（av_promo），返回false。cms gc是每隔一个周期（默认2s）就会做一次这个检查，如果为false，则不执行YGC，而触发cms gc。
+* 所谓的悲观策略，就是JVM不按照JVM指定的参数来进行CMS GC，而是根据内存情况以及之前回收的方式动态调整，自行进行GC。旧生代剩余的空间（available）大于新生代中使用的空间（max_promotion_in_bytes），或者大于之前平均晋升的old的大小（av_promo），返回false。cms gc是每隔一个周期（默认2s）就会做一次这个检查，如果为false，则不执行YGC，而触发cms gc。
 
 **我们经常使用的是啥GC方式？**
 
