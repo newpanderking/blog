@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "基于Spring aop写的一个简单的耗时监控"
-categories: spring
+categories: 技术
 tags: spring
 author: jason
 description: 基于spring aop思想做一个切面监控，监控应用方法耗时情况

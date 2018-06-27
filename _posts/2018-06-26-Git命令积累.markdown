@@ -2,7 +2,7 @@
 layout: post
 title:  "Git命令积累"
 date:   2018-06-26 11:39:34
-categories: GIT
+categories: 技术
 tags: git
 description: git的一些常用命令总结，优选的博客，revert&reset区别
 ---

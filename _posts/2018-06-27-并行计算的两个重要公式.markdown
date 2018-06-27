@@ -2,7 +2,7 @@
 layout: post
 title:  "并行计算的两个重要公式"
 date:   2018-06-27 18:18:45
-categories: 多线程
+categories: 技术
 tags: 多线程
 description: 并行计算的两个重要公式，安达尔定律&古斯塔夫森定律
 ---

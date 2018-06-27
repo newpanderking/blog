@@ -2,7 +2,7 @@
 layout: post
 title:  "Git多仓库不同账户使用方法"
 date:   2018-06-22 16:51:53
-categories: GIT
+categories: 技术
 tags: git
 description: Git多仓库不同账户使用方法.
 ---
