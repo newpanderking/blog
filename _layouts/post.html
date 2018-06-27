@@ -8,7 +8,7 @@ layout: default
             {% assign date_format = site.date_format.title %}
             {{ page.date | date: date_format }}
         </span>
-        <hr style="border-top:1px solid #28323C;"/>
+        <hr/>
     {% if site.comments and page.comments %}
         {% if site.disqus != '' %}
         <p class="author"><a href="#disqus_thread" data-disqus-identifier="{{ page.url | slugify }}">Comments</a></p>
@@ -18,7 +18,7 @@ layout: default
     {% endif %}
     <div class="post-content">
     {{ content }}
-    <hr style="border-top:1px solid #28323C;"/>
+    <hr/>
 
     <!-- tags and categories under post -->
     {% unless page.categories == empty %}
