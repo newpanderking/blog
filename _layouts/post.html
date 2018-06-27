@@ -4,6 +4,7 @@ layout: default
 {% assign trans = site.data.values[site.lan] %}
 <div class="well article">
         <h2><a href="{{ site.baseurl}}{{ page.url }}">{{ page.title }}</a></h2>
+        <i class="icon-calendar"></i>
         <span class="post-date">
             {% assign date_format = site.date_format.title %}
             {{ page.date | date: date_format }}
