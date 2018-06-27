@@ -11,9 +11,15 @@ layout: default
     </div>
     <div class="article-info">
     <i class="icon-calendar"></i>
-    <span class="post-date">
+        <span class="post-date">
         {% assign date_format = site.date_format.title %}
         {{ post.date | date: date_format }}
+        </span>
+
+        <i class=" icon-tag"></i>
+        <span class="post-date">
+        {% assign date_format = site.date_format.tag %}
+        {{ post.tag | date: date_format }}
         </span>
     </div>
     <div class="post-description">

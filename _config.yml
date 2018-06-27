@@ -13,7 +13,7 @@ url: https://newpanderking.github.io/blog/
 baseurl: '/blog'
 ## default date_format
 date_format: 
-  title: "%Y年%m月%d"
+  title: "%Y-%m-%d"
   archive: "%b"
   categories: "%b-%Y"
   tag: "%b-%Y"
