@@ -1,0 +1,142 @@
+---
+layout: post
+title:  "Btrace工具使用"
+date:   2018-06-27 18:18:45
+categories: 技术
+tags: 工具
+description: betrace工具使用介绍
+---
+
+### 1、简介
+> 能够线上监控程序状态，获取运行时数据信息，如方法返回值，参数，调用次数，全局变量，调用堆栈等。
+
+### 2、下载与安装
+* 官网下载地址: [downloads](https://kenai.com/projects/btrace/downloads)。
+* 安装按照绿色版软件安装即可，主要运行命令均在 btrace-bin/bin目录下。
+* 环境变量配置，JAVA_HOME、PATH等。
+* windows下直接运行bin目录中的*.bat命令，linux 或者 mac下运行btrace、btracec、btracer命令，可能需要添加这三个命令的执行权限， 命令：chmod +x btrace / chmod +x btracec / chmod +x btracer。
+
+### 3、基本命令介绍
+#### 3.1 jps命令小工具
+ jps是jdk提供的一个查看当前java进程的小工具， 可以看做是JavaVirtual Machine Process Status Tool的缩写。非常简单实用。
+
+       命令格式：jps [options ] [ hostid ]
+
+       [options]选项 ：
+       -q：仅输出VM标识符，不包括classname,jar name,arguments in main method
+       -m：输出main method的参数
+       -l：输出完全的包名，应用主类名，jar的完全路径名
+       -v：输出jvm参数
+       -V：输出通过flag文件传递到JVM中的参数(.hotspotrc文件或-XX:Flags=所指定的文件
+       -Joption：传递参数到vm,例如:-J-Xms512m
+
+   使用该命令的主要目的是为了找到当前运行java程序的pid。
+#### 3.2 三个命令，btrace,btracec,btracer
+* btrace命令：用于运行BTrace跟踪程序。
+
+		命令格式:
+         btrace [-I <include-path>] [-p <port>] [-cp <classpath>] <pid> <btrace-script> [<args>]
+        示例:
+          btrace -cp build/  1200 AllCalls1.java
+        参数含义:
+        include-path指定头文件的路径，用于脚本预处理功能，可选；
+        port指定BTrace agent的服务端监听端口号，用来监听clients，默认为2020，可选；
+        classpath用来指定类加载路径，默认为当前路径，可选；
+        pid表示进程号，可通过jps命令获取；
+        btrace-script即为BTrace脚本；btrace脚本如果以.java结尾，会先编译再提交执行。可使用btracec命令对脚本进行预编译。
+        args是BTrace脚本可选参数，在脚本中可通过"$"和"$length"获取参数信息。
+
+* btracec命令：用于预编译BTrace脚本，用于在编译时期验证脚本正确性。
+
+			btracec [-I <include-path>] [-cp <classpath>] [-d <directory>] <one-or-more-BTrace-.java-files>
+			参数意义同btrace命令一致，directory表示编译结果输出目录。
+
+* btracer命令：btracer命令同时启动应用程序和BTrace脚本，即在应用程序启动过程中使用BTrace脚本。而btrace命令针对已运行程序执行BTrace脚本。
+
+			 btracer <pre-compiled-btrace.class> <application-main-class> <application-args>
+		参数说明:
+			pre-compiled-btrace.class表示经过btracec编译后的BTrace脚本。
+			application-main-class表示应用程序代码；
+			application-args表示应用程序参数。
+		该命令的等价写法为:
+              java -javaagent:btrace-agent.jar=script=<pre-compiled-btrace-script1>[,<pre-compiled-btrace-script1>]*        <MainClass> <AppArguments>
+
+#### 3.3 方法上的注解说明
+* @OnMethod 用来指定trace的目标类和方法以及具体位置, 被注解的方法在匹配的方法执行到指定的位置会被调用。
+	1. "clazz"属性用来指定目标类名, 可以指定全限定类名, 比如"java.awt.Component", 也可以是正则表达式(表达式必须写在"//"中, 比如"/java\\.awt\\..+/")。
+	2. "method"属性用来指定被trace的方法. 表达式可以参考自带的例子(NewComponent.java 和Classload.java, 关于方法的注解可以参考MultiClass.java)。
+	3. 有时候被trace的类和方法可能也使用了注解. 用法参考自带例子WebServiceTracker.java。
+	4. 针对注解也是可以使用正则表达式, 比如像这个"@/com\\.acme\\..+/ "，也可以通过指定超类来匹配多个类, 比如"+java.lang.Runnable"可以匹配所有实现了java.lang.Runnable接口的类. 具体参考自带例子SubtypeTracer.java。
+* @OnTimer定时触发Trace，时间可以指定，单位为毫秒，具体参考自带例子 Histogram.java。
+* @OnError 当trace代码抛异常或者错误时，该注解的方法会被执行. 如果同一个trace脚本中其他方法抛异常, 该注解方法也会被执行。
+* @OnExit 当trace方法调用内置exit(int)方法(用来结束整个trace程序)时, 该注解的方法会被执行. 参考自带例子ProbeExit.java。
+* @OnEvent 用来截获"外部"btrace client触发的事件, 比如按Ctrl-C 中断btrace执行时，并且选择2，或者输入事件名称，将执行使用了该注解的方法, 该注解的value值为具体事件名称。具体参考例子HistoOnEvent.java。
+* @OnLowMemory 当内存超过某个设定值将触发该注解的方法, 具体参考MemAlerter.java。
+* @OnProbe 使用外部文件XML来定义trace方法以及具体的位置，具体参考示例SocketTracker1.java和java.net.socket.xml。
+
+#### 3.4 参数上的注解说明
+* @Self 用来指定被trace方法的this，可参考例子AWTEventTracer.java 和 AllCalls1.java。
+* @Return 用来指定被trace方法的返回值，可参考例子Classload.java。
+* @ProbeClassName (since 1.1) 用来指定被trace的类名, 可参考例子AllMethods.java。
+* @ProbeMethodName (since 1.1) 用来指定被trace的方法名, 可参考例子WebServiceTracker.java。
+* @TargetInstance (since 1.1) 用来指定被trace方法内部被调用到的实例, 可参考例子AllCalls2.java。
+* @TargetMethodOrField (since 1.1) 用来指定被trace方法内部被调用的方法名, 可参考例子AllCalls1.java 和AllCalls2.java。
+
+#### 3.5 非注解的方法参数
+未使用注解的方法参数一般都是用来做方法签名匹配用的, 他们一般和被trace方法中参数出现的顺序一致. 不过他们也可以与注解方法交错使用, 如果一个参数类型声明为\*AnyType[]\*, 则表明它按顺序"通吃"方法所有参数. 未注解方法需要与\*Location*结合使用。
+
+* Kind.ENTRY-被trace方法参数。
+* Kind.RETURN- 被trace方法返回值。
+* Kind.THROW - 抛异常。
+* Kind.ARRAY\_SET, Kind.ARRAY\_GET - 数组索引。
+* Kind.CATCH - 捕获异常。
+* Kind.FIELD\_SET - 属性值。
+* Kind.LINE - 行号。
+* Kind.NEW - 类名。
+* Kind.ERROR - 抛异常。
+
+#### 3.6 属性上的注解
+
+* @Export 该注解的静态属性主要用来与jvmstat计数器做关联， 使用该注解之后，btrace程序就可以向jvmstat客户端(可以用来统计jvm堆中的内存使用量)暴露trace程序的执行次数， 具体可参考例子ThreadCounter.java。
+* @Property 使用了该注解的trace脚本将作为MBean的一个属性，一旦使用该注解， trace脚本就会创建一个MBean并向MBean服务器注册， 这样JMX客户端比如VisualVM， jconsole就可以看到这些BTrace MBean， 如果这些被注解的属性与被trace程序的属性关联， 那么就可以通过VisualVM 和jconsole来查看这些属性了， 具体可参考例子ThreadCounterBean.java 和HistogramBean.java。
+* @TLS 用来将一个脚本变量与一个ThreadLocal变量关联， 因为ThreadLocal变量是跟线程相关的， 一般用来检查在同一个线程调用中是否执行到了被trace的方法， 具体可参考例子OnThrow.java 和 WebServiceTracker.java。
+
+#### 3.7 类上的注解
+
+* @com.sun.btrace.annotations.DTrace 用来指定btrace脚本与内置在其脚本中的D语言脚本关联， 具体参考例子DTraceInline.java。
+* @com.sun.btrace.annotations.DTraceRef 用来指定btrace脚本与另一个D语言脚本文件关联， 具体参考例子DTraceRefDemo.java。
+* @com.sun.btrace.annotations.BTrace 用来指定该java类为一个btrace脚本文件。
+
+### 4、Btrace的启动和使用
+#### 4.1 启动方式
+btrace-server的加载有两种方式。
+
+* 一种是随着jvm的启动加载，使用jvm的javaagent机制。
+
+```
+java -javaagent:btrace-agent.jar=script={compiled-script-class-file} MainClass ...
+```
+这种方式启动，需要将BTrace脚本编译为Class文件。这种方式的好处是可以在系统初始化之前将probe点应用起来，对于那些只在系统早期运行的类，这样的方式非常必要。
+
+* 一种是通过Jvm attach api将btrace-agent脚本加载到目标jvm中，这种对运行中的java程序有效。
+
+```
+bin/btrace {pid} TraceScript.java
+```
+这种方式下，btrace首先将btrace-agent的jar包通过attach api加载目标jvm, 接着将Btrace脚本在client端进行编译，然后通过tcp连接请求btrace-server进行加载。
+
+#### 4.2 Btrace脚本说明
+Btrace脚本是普通的java程序，Btrace通过注解来解释脚本的用途 。Btrace有安全模式和非安全模式。
+
+* 默认情况下是安全模式，在安全模式下，不能通过直接在Btrace脚本中编写普通的java代码来实现如何访问对象和执行方法等操作，而只能使用Btrace提供的工具和函数，如BtraceUtils类下边的静态方法。
+* 非安全模式没有任何限制，可以写任何java代码。
+
+这一开关在btrace agent启动的时候通过unsafe参数指定，可以在btrace的shell脚本中修改。设置安全模式的主要原因是为了降低风险，避免执行没有限制的代码被prob系统崩溃或数据异常。虽然Btrace在实现上的安全模式对操作做了很多限制。但是如果能够很好地使用BtraceUtils类中提供的方法，完全可以实现大多数的需求。
+
+
+
+---
+***更多详细信息可以参考官网说明：[UserGuide](https://kenai.com/projects/btrace/pages/UserGuide)***
+
+---
+
