@@ -17,32 +17,7 @@ layout: default
         </span>
 
         {% unless page.tags == empty %}
-        <i class=" icon-tag"></i>123
-
-        {% assign tags_list = page.tags %}
-        {% if tags_list.first[0] == null %}
-        {% for tag in tags_list %}
-        <li class="icon-style">
-            <a href="{{ site.baseurl }}/tags.html">
-                {{ tag }} <span>({{ site.tags[tag].size }})</span>
-                {% unless forloop.last %},{% endunless %}
-            </a>
-        </li>
-        {% endfor %}
-        {% else %}
-        {% for tag in tags_list %}
-        <li class="icon-style">
-            <a href="{{ site.baseurl }}/tags.html">
-                {{ tag[0] }} <span>({{ tag[1].size }})</span>
-                {% unless forloop.last %},{% endunless %}
-            </a>
-        </li>
-
-        {% endfor %}
-        {% endif %}
-        {% assign tags_list = nil %}
-
-
+        <i class=" icon-tag"></i>{{ page.tags }}
         {% endunless %}
 
     </div>
