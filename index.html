@@ -9,6 +9,7 @@ layout: default
     <div class="article-title">
         <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
     </div>
+    <i class="icon-calendar"></i>
     <span class="post-date">
         {% assign date_format = site.date_format.title %}
         {{ post.date | date: date_format }}
