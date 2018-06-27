@@ -1,0 +1,103 @@
+---
+layout: post
+title:  "GC小知识"
+date:   2018-06-27 18:18:45
+categories: 技术
+tags: java
+description: GC日志分析&GC问题处理思路
+---
+
+> 一般情况下在heap size<=3G的情况下完全不要考虑CMS GC，在heap size>3G的情况下也优先选择ParallelOldGC，而不是CMS GC，只有在暂停时间无法接受的情况下才考虑CMS GC（不过当然，一般来说在heap size>8G后基本上都得选择CMS GC，否则那暂停时间是相当吓人的，除非是完全不在乎响应时间的应用），这其实也是官方的建议。
+
+#### gc日志
+```log
+5.617: [GC 5.617: [ParNew: 43296K->7006K(47808K), 0.0136826 secs] 44992K->8702K(252608K), 0.0137904 secs] [Times: user=0.03 sys=0.00, real=0.02 secs]
+```
+> 格式解释
+
+```log
+5.617（时间戳）: [GC（Young GC） 5.617（时间戳）: [ParNew（使用ParNew作为年轻代的垃圾回收器）: 43296K（年轻代垃圾回收前的大小）->7006K（年轻代垃圾回收以后的大小）(47808K)（年轻代的总大小）, 0.0136826 secs（回收时间）] 44992K（堆区垃圾回收前的大小）->8702K（堆区垃圾回收后的大小）(252608K)（堆区总大小）, 0.0137904 secs（回收时间）] [Times: user=0.03（Young GC用户耗时） sys=0.00（Young GC系统耗时）,real=0.02 secs（Young GC实际耗时）]
+```
+
+* 样例一
+
+```log
+2013-11-27T03:00:53.638+0800: 35333.562: [GC 35333.562: [ParNew (promotion failed): 1877376K->1877376K(1877376K), 15.7989680 secs]35349.361: [CMS: 2144171K->2129287K(2146304K), 10.4200280 sec
+s] 3514052K->2129287K(4023680K), [CMS Perm : 119979K->118652K(190132K)], 26.2193500 secs] [Times: user=30.35 sys=5.19, real=26.22 secs]
+```
+```
+1877376K->1877376K(1877376K), 15.7989680 secs    young区
+2144171K->2129287K(2146304K), 10.4200280 sec     old区情况
+3514052K->2129287K(4023680K)                     heap区情况
+119979K->118652K(190132K)], 26.2193500 secs      perm区情况
+[Times: user=30.35 sys=5.19, real=26.22 secs]    整个过程的时间消耗
+```
+
+* 样例二
+
+```
+[GC [1 CMS-initial-mark: 1547313K(2146304K)] 1734957K(4023680K), 0.1390860 secs] [Times: user=0.14 sys=0.00, real=0.14 secs]
+```
+```
+各个数据依次表示标记前后old区的所有对象占内存大小和old的capacity，整个JavaHeap（不包括perm）所有对象占内存总的大小和JavaHeap的capacity。
+```
+
+* 样例三
+
+```
+2013-11-27T04:00:25.253+0800: 38905.177: [GC[YG occupancy: 573705 K (1877376 K)]38905.177: [Rescan (parallel) , 0.3685690 secs]38905.546: [weak refs processing, 0.0024100 secs]38905.548: [class unloading, 0.0177600 secs]38905.566: [scrub symbol & string tables, 0.0154090 secs] [1 CMS-remark: 1547313K(2146304K)] 2121018K(4023680K), 0.4229380 secs] [Times: user=1.41 sys=0.01, real=0.43 secs]
+```
+
+```
+Rescan (parallel)表示的是多线程处理young区和多线程扫描old+perm的卡表的总时间， parallel 表示多GC线程并行。
+weak refs processing 处理old区的弱引用的总时间，用于回收native memory。
+class unloading 回收SystemDictionary消耗的总时间。
+```
+
+#### GC的一些基本知识
+**旧生代可用的GC方式有哪几种？**
+
+* 串行GC（Serial MSC）、并行GC（Parallel MSC）、并发GC（CMS）；
+
+**关于CMS？**
+
+* 采用CMS时候，新生代必须使用Serial GC或者ParNew GC两种。CMS共有七个步骤，只有Initial Marking和Final Marking两个阶段是stop-the-world的，其他步骤均和应用并行进行。持久代的GC也采用CMS，通过-XX：CMSPermGenSweepingEnabled -XX：CMSClassUnloadingEnabled来制定。在采用cms gc的情况下，ygc变慢的原因通常是由于old gen出现了大量的碎片。
+
+**啥时候会触发CMS GC？**
+
+* 1、旧生代或者持久代已经使用的空间达到设定的百分比时（CMSInitiatingOccupancyFraction这个设置old区，perm区也可以设置）；
+* 2、JVM自动触发(JVM的动态策略，也就是悲观策略)（基于之前GC的频率以及旧生代的增长趋势来评估决定什么时候开始执行），如果不希望JVM自行决定，可以通过-XX：UseCMSInitiatingOccupancyOnly=true来制定；
+* 3、设置了 -XX：CMSClassUnloadingE考虑nabled 这个则考虑Perm区；
+
+**啥时候会触发Full GC？**
+
+* 一、旧生代空间不足：java.lang.outOfMemoryError：java heap space；
+* 二、Perm空间满：java.lang.outOfMemoryError：PermGen space；
+* 三、CMS GC时出现promotion failed  和concurrent  mode failure（Concurrent mode failure发生的原因一般是CMS正在进行，但是由于old区内存不足，需要尽快回收old区里面的死的java对象，这个时候foreground gc需要被触发，停止所有的java线程，同时终止CMS，直接进行MSC。）；
+* 四、统计得到的minor GC晋升到旧生代的平均大小大于旧生代的剩余空间；
+* 五、主动触发Full GC（执行jmap -histo:live [pid]）来避免碎片问题；
+
+**JVM的悲观策略是啥？**
+
+* 所谓的悲观策略（http://tmalltesting.com/archives/663 我们性能测试团队一个同学分析的案例），就是JVM不按照JVM指定的参数来进行CMS GC，而是根据内存情况以及之前回收的方式动态调整，自行进行GC。旧生代剩余的空间（available）大于新生代中使用的空间（max_promotion_in_bytes），或者大于之前平均晋升的old的大小（av_promo），返回false。cms gc是每隔一个周期（默认2s）就会做一次这个检查，如果为false，则不执行YGC，而触发cms gc。
+
+**我们经常使用的是啥GC方式？**
+
+* 针对目前线上机器的情况（8G的物流内存），heap区一般设置在4g或者5g左右，一般是使用CMS GC，这时候：
+young区使用ParNew（并行GC），Old+Perm(需要单独设置)使用CMS，整个堆（young+old+perm）使用MSC（（Mark Sweep Compact）是CMS GC算法的Full GC算法,单线程回收整个堆，回收过程有严格的步骤。压缩，所以回收完理论上任何Generation都不会有内存碎片）压缩回收的方式。
+
+
+**频繁GC问题或内存溢出问题**
+
+- 一、使用jps查看线程ID
+- 二、使用jstat -gc 3331 250 20 查看gc情况，一般比较关注PERM区的情况，查看GC的增长情况。
+- 三、使用jstat -gccause：额外输出上次GC原因
+- 四、使用jmap -dump:format=b,file=heapDump 3331生成堆转储文件
+- 五、使用jhat或者可视化工具（Eclipse Memory Analyzer 、IBM HeapAnalyzer）分析堆情况。
+- 六、结合代码解决内存溢出或泄露问题。
+
+**死锁问题**
+
+- 一、使用jps查看线程ID
+- 二、使用jstack 3331：查看线程情况
+
