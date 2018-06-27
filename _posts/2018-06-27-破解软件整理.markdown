@@ -1,0 +1,19 @@
+---
+layout: post
+title:  "破解软件整理"
+date:   2018-06-27 18:18:45
+categories: 软件
+tags: 工具
+description: 整理日常工作中一些常用的软件破解方法，有条件的情况下建议支持正版软件
+---
+
+> 整理日常工作中一些常用的软件破解方法，有条件的情况下建议支持正版软件。
+
+### OmniGraffle 7
+* [破解地址传送门](http://www.sdifen.com/omnigrafflepro702.html)
+* Name: `Appked` ; SN: `MFWG-GHEB-HYTW-CGHT-CSXU-QCNC-SXU`
+
+
+### Intellij Idea
+* [破解地址传送门](http://idea.lanyus.com/)
+> 注册方法:   注册码可以沿用14的,只是在 注册时选择 License server ，填 http://idea.lanyus.com ，然后点击 OK。 14的话，网上可以找到一个，根据你的用户名生成激活码。
