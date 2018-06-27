@@ -42,6 +42,7 @@ body {
     color: $side-bar-color;
     background-color: $side-bar-background-color;
     font-size: 1.1em;
+    margin-bottom: 10px;
 }
 
 .sidebar h1 {
@@ -99,7 +100,7 @@ body {
 .post-date {
 	text-transform: uppercase;
 	font-size: 14px;
-	letter-spacing: 3px;
+	letter-spacing: 1px;
 }
 
 /* 
