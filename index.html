@@ -10,14 +10,26 @@ layout: default
         <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
     </div>
     <div class="article-info">
-    <i class="icon-calendar"></i>
-        <span class="post-date">
-        {% assign date_format = site.date_format.title %}
-        {{ post.date | date: date_format }}
-        </span>
+        <i class="icon-calendar"></i>
+            <span class="post-date">
+            {% assign date_format = site.date_format.title %}
+            {{ post.date | date: date_format }}
+            </span>
+        {% unless post.tags == empty %}
+        <i class=" icon-tag"></i>
 
-        {% unless page.tags == empty %}
-        <i class=" icon-tag"></i>{{ page.tags }}
+        {% assign tags_list = post.tags %}
+        {% for tag in tags_list %}
+        <li class="icon-style">
+            <a href="{{ site.baseurl }}/tags.html">
+                {{ tag[0] }}
+                {% unless forloop.last %},{% endunless %}
+            </a>
+        </li>
+        {% endif %}
+        {% assign tags_list = nil %}
+
+
         {% endunless %}
 
     </div>
