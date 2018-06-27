@@ -15,23 +15,8 @@ layout: default
             {% assign date_format = site.date_format.title %}
             {{ post.date | date: date_format }}
             </span>
-        {% unless post.tags == empty %}
-        <i class=" icon-tag"></i>{{post.tags}}
-
-        {% assign tags_list = post.tags %}
-        {% for tag in tags_list %}
-        <li class="icon-style">
-            <a href="{{ site.baseurl }}/tags.html">
-                {{ tag[0] }}
-                {% unless forloop.last %},{% endunless %}
-            </a>
-        </li>
-        {% endif %}
-        {% assign tags_list = nil %}
-
-
-        {% endunless %}
-
+        <!--<i class=" icon-tag"></i>{{post.tags}}-->
+        
     </div>
     <div class="post-description">
         {{ post.description }}
