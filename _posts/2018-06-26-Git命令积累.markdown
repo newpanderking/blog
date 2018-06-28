@@ -37,8 +37,7 @@ description: git的一些常用命令总结，优选的博客，revert&reset区�
 |git checkout branchName| 切换分支branchName|
 |git checkout -b branchName| 切换分支branchName, 没有则创建branchName|
 |git checkout -b branchName remoteBranch| 切换分支branchName, 没有则创建branchName, 同时关联远程分支remoteBranch|
-|git branch --set-upstream-to origin/remote-branch mybranch| 关联本地分支mybranch到远程分支remote-branch |
-|git push --set-upstream origin jason-branch | 将本地分支推送远程分支，远程分支名字为`jason-branch`|
+|`git branch --set-upstream-to origin/remote-branch mybranch`| 关联本地分支mybranch到远程分支remote-branch |
 |git push -u origin jason-branch | 将本地分支推送远程分支，远程分支名字为`jason-branch`|
 |git push origin myBranch|本地分支和远程分支名字相同myBranch,可以直接push|
 |git push origin HEAD:myBranch1|本地分支和远程分支名字不同，假如远程分支名字为myBranch1|
