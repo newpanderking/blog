@@ -170,7 +170,7 @@ description: 本文主要介绍使用java-API客户端工具jest调用elasticsea
 
 ```
 
-### Jest操作API指南
+### 二、Jest操作API指南
 
 * Jest客户端初始化
 
