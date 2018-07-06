@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "ElasticSearch学习小记"
-date:   2018-06-26 11:39:34
+date:   2018-07-06 12:31:25
 categories: 技术
 tags: es
 description: 本文主要介绍使用java-API客户端工具jest调用elasticsearch的基本方法，附有多篇学习文档和博客。
