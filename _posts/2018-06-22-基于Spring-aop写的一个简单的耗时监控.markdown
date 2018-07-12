@@ -176,4 +176,7 @@ public class Client {
 
 ```
 
+#### 遇到的问题
 
+* `xml aop` 配置后, 切面不生效，重点关注，aop文件配置加载和要做切面的类加载顺序。
+* aop配置扫描范围限于当前bundle，不同bundle需要各自配置。
