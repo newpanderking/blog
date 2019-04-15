@@ -22,3 +22,8 @@ description: Shell命令介绍
 * `ctrl + k` : 删除光标到命令行行尾。 
 * `ctrl + u` : 删除光标到命令行开始。 
 
+### 切换shell
+
+* `chsh -s /bin/bash` 切换bash
+* `chsh -s /bin/zsh` 切换zsh 
+
