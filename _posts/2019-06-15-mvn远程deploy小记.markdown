@@ -14,7 +14,7 @@ description: mvn deploy jar to remote repository
 #### 步骤
 - mvn的主pom文件中加入如下代码
 
-```
+```xml
 <distributionManagement>
 <repository>
 <id>releases</id>
@@ -31,7 +31,7 @@ description: mvn deploy jar to remote repository
 
 - setting.xml文件中配置如下
 
-```
+```xml
 <servers>
 <server>
 <id>releases</id>
