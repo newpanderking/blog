@@ -3,7 +3,7 @@ layout: post
 title:  "SpringBoot启动报错 Failed to determine a suitable driver class"
 date: 2019-07-22
 categories: 技术
-tags: spring boot 
+tags: spring-boot 
 description: SpringBoot启动报错 "Failed to determine a suitable driver class"
 ---
 
