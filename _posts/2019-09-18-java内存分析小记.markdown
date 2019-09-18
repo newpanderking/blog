@@ -1,0 +1,64 @@
+---
+layout: post
+title:  "Java 内存&线程分析小记"
+date: 2019-09-18
+categories: 技术
+tags: jvm java
+description: java 内存&线程分析小记
+---
+
+##  java 内存&线程分析小记
+
+### 1、服务器上通过命令行分析线程
+#### 1.1 查找java进程
+- `ps -aux | grep java`  或者 `top`
+
+```
+ PID USER      PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND
+ 14439 admin     20   0 8206m 5.3g 8320 S 145.6 66.2  62:43.18 java
+```
+#### 1.2 查找java最耗费cpu的线程
+
+- 'top -p 14439 -H' 默认是按照cpu消耗比例进行排序，找到最高的一个PID, 如下日志所示，14481为目前最耗cpu的线程。
+
+```
+
+   PID USER      PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND
+ 113982 admin     20   0 8194m 5.3g 9732 S  99.3 66.2   0:14.81 java
+ 14439 admin     20   0 8194m 5.3g 9732 S  0.0 66.2   0:00.00 java
+ 14440 admin     20   0 8194m 5.3g 9732 S  0.0 66.2   0:01.54 java
+```
+
+#### 1.3 线程dump
+- `jstack 14439  > stack.log`
+
+#### 1.4 从stack.log中根据最耗cpu的线程查看线程堆栈，确认当前线程在做的事情
+
+- 执行`printf "%x" 113982` 将值转换为 16进制的数字: `1bd3e`
+- 执行`grep '1bd3e' stack.log` 查看线程的内容, 其中的nid就是线程id 为16进制数字，与我们执行top命令看到的10进制数字113982是对应的。
+
+```
+"RMI TCP Connection(851)-30.55.192.209" #138874 daemon prio=5 os_prio=0 tid=0x00007f3efad96000 nid=0x1bd3e runnable [0x00007f3ebe9f4000]
+```
+#### 1.5 分析线程
+
+### 2、服务器上通过命令进行堆dump
+#### 2.1 堆dump
+- `jmap -dump:live,format=b,file=heap-dump.bin 14439`
+
+#### 2.2 分析dump
+- 2.2.1 通过命令分析：`jhat heap-dump.bin`, 
+
+```
+Snapshot resolved.
+Started HTTP server on port 7000
+Server is ready.
+```
+直接访问：`localhost:7000`即可， 不过展示的文件不够友好，不利于分析，不建议使用，建议使用工具。
+
+- 2.2.2 通过 visual vm导入堆dump文件分析
+
+### 3、使用visual vm工具分析线程内存
+
+
+
