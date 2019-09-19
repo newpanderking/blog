@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "String StringBuffer 和 StringBuilder的区别"
-date: 2019-09-18
+date: 2019-09-19
 categories: 技术
 tags: java
 description: String StringBuffer 和 StringBuilder 的区别是什么? String 为什么是不可变的?
