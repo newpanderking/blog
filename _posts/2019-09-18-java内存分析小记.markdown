@@ -86,16 +86,13 @@ PGC perm代当前新生成的容量 (字节) PC Perm(持久代)的容量 (字节
 > PC Perm(持久代)的容量 (字节) PU Perm(持久代)目前已使用空间 (字节) OC Old代的容量 (字节) OU Old代目前已使用空间 (字节) YGC 从应用程序启动到采样时年轻代中gc次数 FGC 从应用程序启动到采样时old代(全gc)gc次数 FGCT 从应用程序启动到采样时old代(全gc)gc所用时间(s) GCT 从应用程序启动到采样时gc用的总时间(s)
 
 - 9、`jstat -gcoldcapacity <pid>`: old代对象的信息及其占用量。
-
 > OGCMN old代中初始化(最小)的大小 (字节) OGCMX old代的最大容量(字节) OGC old代当前新生成的容量 (字节) OC Old代的容量 (字节) YGC 从应用程序启动到采样时年轻代中gc次数 FGC 从应用程序启动到采样时old代(全gc)gc次数 FGCT 从应用程序启动到采样时old代(全gc)gc所用时间(s) GCT 从应用程序启动到采样时gc用的总时间(s)
 
-- 10、`jstat -gcpermcapacity<pid>`: perm对象的信息及其占用量。
-
+- 10、`jstat -gcpermcapacity <pid>`: perm对象的信息及其占用量。
 > PGCMN perm代中初始化(最小)的大小 (字节) PGCMX perm代的最大容量 (字节)
 PGC perm代当前新生成的容量 (字节) PC Perm(持久代)的容量 (字节) YGC 从应用程序启动到采样时年轻代中gc次数 FGC 从应用程序启动到采样时old代(全gc)gc次数 FGCT 从应用程序启动到采样时old代(全gc)gc所用时间(s) GCT 从应用程序启动到采样时gc用的总时间(s)
 
 - 11、`jstat -printcompilation <pid>`：当前VM执行的信息。
-
 > Compiled 编译任务的数目 Size 方法生成的字节码的大小 Type 编译类型 Method 类名和方法名用来标识编译的方法。类名使用/做为一个命名空间分隔符。方法名是给定类中的方法。上述格式是由-XX:+PrintComplation选项进行设置的
 
 
