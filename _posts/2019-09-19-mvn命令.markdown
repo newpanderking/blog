@@ -1,0 +1,17 @@
+---
+layout: post
+title:  "mvn命令"
+date: 2019-09-18
+categories: 技术
+tags: mvn
+description: mvn命令
+---
+
+### 1、生成doc命令
+- `mvn clean compile javadoc:aggregate`
+
+### 2、mvn指定setting文件
+- `mvn deploy -s 'xxxxsetting.xml'`
+
+### 3、跳过测试用例
+- `mvn option order  -DskipTests`
