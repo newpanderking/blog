@@ -1,0 +1,72 @@
+---
+layout: post
+title:  "Java 集合"
+date: 2019-09-20
+categories: 技术
+tags: java
+description: Java 集合
+---
+
+## 一、List/Set/Map三者的区别
+- List：存储一组不唯一(可以有多个元素引用相同对象，有序的对象)。
+- Set：不允许有重复对象的集合。
+- Map：使用键值对存储。Map会维护与Key有关的值。两个Key可以引用相同的对象，单key不能重复，典型的key是String类型，但也可以是任何对象。
+
+## 二、ArrayList and LinkedList三者的区别
+- 1、是否线程安全： ArrayList & LinkedList都是不同步的，也就是不保证线程安全。
+- 2、底层数据结构：ArrayList 底层使用的是Object数组；LinkedList底层使用的是双向链表数据结构。
+- 3、插入和删除是否受元素位置影响：
+	- ArrayList采用数组存储，所以插入和删除元素的时间复杂度受位置影响。近似O(N);
+	- ListList采用链表存储，所以插入和删除元素的时间复杂度不受位置影响。近似O(1);
+- 4、是否支持快速随机访问：LinkedList不支持快速随机访问，ArrayList支持。
+- 5、内存空间占用：ArrayList的空间主要体现在List的结尾会预留一定的容量空间，而LinkedList的空间花费体现在每一个元素的需要比ArrayList更多的空间。
+
+## 三、ArrayList 与 Vector 区别？
+- Vector类的所有方法都是同步的。可以由两个线程安全的访问同一个Vector对象、但是一个线程访问Vector存在同步操作，会有大量消耗。
+- ArrayList不是同步的，在不需要保证线程安全的情况下，建议使用ArrayList。
+
+## 四、HashMap 和 HashTable 的区别？
+- 1、线程是否安全？HashMap非线程安全， HashTable线程安全; HashTable的内部方法基本都通过synchronized进行修饰。
+- 2、效率：由于线程安全性问题，HashMap比HashTable效率高。此外HashTable基本被淘汰了，不建议使用。
+- 3、对于Null Key & Null Value的支持，HashMap允许这样的键有一个存在，这样的值可以有多个。HashTable不允许有Null的键值。
+- 4、初始容量和扩容机制
+	- HashTable: 初始默认大小为11， 每次扩容为原来的2*n+1。
+	- HashMap: 初始大小为16，每次扩容为 2*n。
+- 5、底层数据结构：JDK1.8以后的HashMap在解决hash冲突有了很大的变化。当链表长度大于阈值(默认为8)时，就会将链表转化为红黑树，以减少搜索时间。  
+
+## 五、HashMap 和 HashSet 的区别？ 
+
+- HashSet的底层代码是基于HashMap实现的。
+- 重复检查
+	- HashMap是通过计算键的HashCode判断是否重复。
+	- HashSet使用成员对象来计算hashCode值，对于两个对象来说hashCode可能相同，所有equals()方法用来判断对象的相等性。 
+- **hashCode() & equals()** 
+	- 1、如果两个对象相等，则hashCode则一定相等。
+	- 2、如果两个对象相等，equals() 方法返回为true。
+	- 3、两个对象有相同的hashCode，它们不一定相等。
+	- 4、综上：equals方法被重写时，hashCode方法必须被覆盖。
+	- 5、hashCode的默认行为指的是在堆上对象产生的独特值。如果没有重写hashCode, 则该class的两个对象无论如何都不会相等。
+
+
+
+## 六、集合框架底层数据结构总结
+### 1、List
+- Arraylist： Object数组
+- Vector： Object数组
+- LinkedList： 双向链表(JDK1.6之前为循环链表，JDK1.7取消了循环)
+
+### 2、Set
+- **HashSet**（无序，唯一）: 基于 HashMap 实现的，底层采用 HashMap 来保存元素。
+- **LinkedHashSet**： LinkedHashSet 继承于 HashSet，并且其内部是通过 LinkedHashMap 来实现的。有点类似于我们之前说的LinkedHashMap 其内部是基于 HashMap 实现一样，不过还是有一点点区别的。
+- **TreeSet**（有序，唯一）： 红黑树(自平衡的排序二叉树)
+
+### 3、Map
+- **HashMap**： JDK1.8之前HashMap由数组+链表组成的，数组是HashMap的主体，链表则是主要为了解决哈希冲突而存在的（“拉链法”解决冲突）。JDK1.8以后在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为8）时，将链表转化为红黑树，以减少搜索时间
+- **LinkedHashMap**： LinkedHashMap 继承自 HashMap，所以它的底层仍然是基于拉链式散列结构即由数组和链表或红黑树组成。另外，LinkedHashMap 在上面结构的基础上，增加了一条双向链表，使得上面的结构可以保持键值对的插入顺序。同时通过对链表进行相应的操作，实现了访问顺序相关逻辑。
+- **Hashtable**： 数组+链表组成的，数组是 HashMap 的主体，链表则是主要为了解决哈希冲突而存在的
+- **TreeMap**： 红黑树（自平衡的排序二叉树）
+
+### 如何选用集合?
+> 主要根据集合的特点来选用，比如我们需要根据键值获取到元素值时就选用Map接口下的集合，需要排序时选择TreeMap,不需要排序时就选择HashMap,需要保证线程安全就选用ConcurrentHashMap.当我们只需要存放元素值时，就选择实现Collection接口的集合，需要保证元素唯一时选择实现Set接口的集合比如TreeSet或HashSet，不需要就选择实现List接口的比如ArrayList或LinkedList，然后再根据实现这些接口的集合的特点来选用。
+
+
