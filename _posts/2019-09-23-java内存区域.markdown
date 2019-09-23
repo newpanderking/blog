@@ -1,0 +1,16 @@
+---
+layout: post
+title:  "Java 内存区域"
+date: 2019-09-20
+categories: 技术
+tags: java
+description: Java 内存区域
+---
+
+## 一、运行时数据区域
+### JDK1.8之前
+![](img/JVM运行时数据区域内存图1.8之前.png)
+### JDK1.8
+
+
+
