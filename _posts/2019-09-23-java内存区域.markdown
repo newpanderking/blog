@@ -9,7 +9,7 @@ description: Java 内存区域
 
 ## 一、运行时数据区域
 ### JDK1.8之前
-![]({{ "/assets/img4post/2019-09-23-java内存区域-JVM运行时数据区域内存图1.8之前.png"}})
+![]({{ "/assets/img4post/2019-09-23-java内存区域-JVM运行时数据区域内存图1.8之前.png" | absolute_url }})
 ### JDK1.8
 
 
