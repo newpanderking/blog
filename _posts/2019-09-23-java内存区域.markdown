@@ -37,6 +37,7 @@ PS: 程序计数器是唯一一个不会出现OutOfMemoryError的内存区域，
 	- `StackOverFlowError`: 若Java虚拟机栈的内存大小不允许动态扩展，那么当线程请求栈的深度超过当前Java虚拟机栈的最大深度时，就会抛出`StackOverFlowError`。
 	- `OutOfMemoryError`: 若Java虚拟机栈的内存大小允许动态扩展，且当线程请求栈空间时，内存用完了，无法再动态扩展，此时就会抛出`OutOfMemoryError`。
 
-### 
+### 本地方法栈
+> 和虚拟机栈所发挥的作用非常相似，区别是： 虚拟机栈为虚拟机执行 Java 方法 （也就是字节码）服务，而本地方法栈则为虚拟机使用到的 Native 方法服务。
 	
 
