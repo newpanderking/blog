@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Java 内存区域"
-date: 2019-09-20
+date: 2019-09-23
 categories: 技术
 tags: java
 description: Java 内存区域
