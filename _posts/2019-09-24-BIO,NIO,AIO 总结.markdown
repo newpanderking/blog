@@ -63,7 +63,7 @@ description: BIO,NIO,AIO 总结
 - 2.2.3 Selector - 选择器
  > NIO有选择器，而IO没有，选择器用于单个线程处理多个通道。因此它需要较少的线程来处理这些通道，线程之间的切换对于操作系统来说是昂贵的，因此为了提高效率，选择器是很有用的。
  
- ![]({{ "/assets/img4post/2019-09-24-BIO,NIO,AIO 总结-选择器.png" | absolute_url }})
+    ![]({{ "/assets/img4post/2019-09-24-BIO,NIO,AIO 总结-选择器.png" | absolute_url }})
  
 #### 2.3 NIO读写数据的方式
 > 通常来说NIO所有的IO都是从管道开始的。
@@ -86,7 +86,9 @@ description: BIO,NIO,AIO 总结
 ### 3、AIO
 > AIO也就是NIO-2，在Java7 中引入了NIO的改进版NIO-2，它是异步非阻塞的IO模型。异步IO是基于事件和回调机制实现的，也就是应用操作之后会直接返回，不会阻塞在那里，当后台处理完成之后，操作系统会通知相应的线程进行后续操作。AIO是异步IO的缩写，虽然NIO在网络操作中，提供了非阻塞的方法，但是NIO的IO行为还是同步行为。对于NIO，我们的业务线程是在IO操作准备好时，得到通知，接着就由这个线程自行进行IO操作，IO操作本身是同步的。
  
-
+## 附录
+- [漫话：如何给女朋友解释什么是Linux的五种IO模型？](https://mp.weixin.qq.com/s?__biz=Mzg3MjA4MTExMw==&mid=2247484746&idx=1&sn=c0a7f9129d780786cabfcac0a8aa6bb7&source=41#wechat_redirect)
+- 
 
  
 
