@@ -1,13 +1,13 @@
 ---
 layout: post
-title:  "计算机网络"
+title:  "计算机网络(一) - 五层协议"
 date: 2019-09-24
 categories: 技术
 tags: 网络
 description: 计算机网络，TCP/UDP/HTTP/HTTPS等
 ---
 
-## 一、OSI与TCP/IP各层的结构与功能，分别都有哪些协议？
+## OSI与TCP/IP各层的结构与功能，分别都有哪些协议？
 ![]({{ "/assets/img4post/2019-09-25-网络-五层体系结构.png" | absolute_url }})
 
 五层体系结构介绍
