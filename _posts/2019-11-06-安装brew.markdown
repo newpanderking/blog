@@ -1,0 +1,21 @@
+---
+layout: post
+title:  "安装brew"
+date: 2019-11-06
+categories: 技术
+tags: 工具
+description: 安装brew遇到“Failed to connect to raw.githubusercontent.com port 443: Operation”
+---
+
+## 安装brew遇到“Failed to connect to raw.githubusercontent.com port 443: Operation”
+
+- 正常情况下 在终端输入安装指令（最好到官网去找最新指令）即可安装
+官网：https://brew.sh；
+- 当前官网安装指令：`/usr/bin/ruby -e “$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)”`
+
+> 但是如果你出现了curl: (7) Failed to connect to raw.githubusercontent.com port 443: Operation 错误 就按照下面的方法执行。
+
+- 先在浏览器输入这个地址：`https://raw.githubusercontent.com/Homebrew/install/master/install`
+
+- 打开之后 把网页文件保存下来 名称为 brew_install.rb，位置随便放 自己知道在哪就OK（后面会用）
+- 然后终端输入： ruby brew_install.rb。
